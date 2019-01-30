@@ -60,19 +60,26 @@ Pizza toppings are any of:
 ## Prepare to Run the Pizza App
 
 The app may be run with or without TLS enabled for communication
-within the PCC service instance.
+within the PCC service instance. 
+This sample app is using GemFire 9.7 (By pulling in `spring-data-gemfire:2.2.0.BUILD-SNAPSHOT` which bring in GemFire 9.7)
 Follow the appropriate set up procedure.
 
 ### Prepare with TLS Communication
 
-1. Create the PCC service instance with TLS enabled:
+1. Prepare your foundation for TLS:
 
+    Ensure that you have followed the steps in [Preparing for TLS](https://docs.pivotal.io/p-cloud-cache/1-6/prepare-TLS.html) before proceeding with the below. [Preparing for TLS](https://docs.pivotal.io/p-cloud-cache/1-6/prepare-TLS.html) talks about generating and adding a CA cert to your foundation.
+
+1. Create a TLS enabled PCC service instance:
+    
     ```
     $ cf create-service p-cloudcache PLAN_NAME SERVICE_INSTANCE -c '{"tls":true}'
     ```
-1. Follow the directions in [Developing an App Under TLS](https://docs.pivotal.io/p-cloud-cache/tls-enabled-app.html)
+1. If your client app is using GemFire 9.7 or above like in this app (GemFire 9.7 is pulled in via [spring-data-gemfire:2.2.0.BUILD-SNAPSHOT](https://github.com/spring-projects/spring-data-gemfire/wiki/Spring-Data-for-Pivotal-GemFire-Version-Compatibility-Matrix)), then you just build app as described in the next step. 
+If you are not using GemFire 9.7, then follow the directions in [Developing an App Under TLS](https://docs.pivotal.io/p-cloud-cache/tls-enabled-app.html)
 to obtain the required Java Keystore file `truststore.jks` and place
 it into app's source code.
+
 1. Build the executable JAR file:
 
     ```
@@ -103,7 +110,6 @@ it into app's source code.
 ### Prepare Without TLS Communication
 
 1. Create the PCC service instance without TLS communication:
-If a PCC service instance has not yet been created, then create a non-TLS service using 
 
     ```
     $ cf create-service p-cloudcache PLAN_NAME SERVICE_INSTANCE
